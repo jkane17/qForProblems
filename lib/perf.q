@@ -16,3 +16,4 @@ timeit:{[n;expr]
     `f`n`total`average!(expr;n;t;"n"$t%n)
  }
 
+test:{[n;expr] timeit[n;expr],(1#`mem)!1#memUse expr}
