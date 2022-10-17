@@ -13,7 +13,21 @@ timeit:{[n;expr]
     s:.z.N; 
     do[n;eval e]; 
     t:.z.N-s;
-    `f`n`total`average!(expr;n;t;"n"$t%n)
+    $[10=type expr;[f:expr;args:1_e];[f:first expr;args:1_ expr]];
+    `f`args`n`total`average!(f;args;n;t;"n"$t%n)
  }
 
 test:{[n;expr] timeit[n;expr],(1#`mem)!1#memUse expr}
+
+/ Return best and worst time and mem based on some arg specified by arg index (argi)
+/ e.g., argi:0 will derive the comparison based on the arg at index 0
+compare:{[n;argi;exprs]
+    t:test[n;] each exprs;
+    r:(1#`t)!enlist t;
+    t:update cmp:args[;argi] from t;
+    flt:{`cmp xasc ?[x;enlist (=;z;(fby;(enlist;y;z);`cmp));0b;()]}[t];
+    r,`bestTime`worstTime`bestMem`worstMem!flt ./: (
+        (min;`average);(max;`average);(min;`mem);(max;`mem)
+    )
+ }
+
