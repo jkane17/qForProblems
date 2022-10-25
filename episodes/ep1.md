@@ -75,7 +75,7 @@ where a<sub>n</sub> is the last term.
 <br>
 <br>
 
-**S<sub>n</sub> = n * (a + a<sub>n</sub>) / 2**
+$$ S_n = n * (a + a_n) / 2 $$
 
 where <br>
 - n  -->  Number of terms in the sequence
@@ -102,7 +102,7 @@ Three inputs are required:
 
 2. **a<sub>n</sub>**
     - Equation to calculate the n-th term of an arithmetic progression.
-    - **a<sub>n</sub> = a + d * (n - 1)** <br>
+    - $a_n = a + d * (n - 1)$ <br>
       where d is the common difference (3 and 5 in our case).
     - `arithN:{[a;d;n] a+d*n-1}`
     - Special case because a = d
@@ -159,13 +159,13 @@ q) s2[999;3 5] / solution 2
 
 Can simplify the arithmetic series equation (due to the special case described previously) to improve our solution.
 
-```
-an = a * n
-Sn = 0.5 * n * (a + an)
-   = 0.5 * n * (a + a * n)
-   = 0.5 * n * (a * (1 + n)) 
-   = 0.5 * n * a * (1 + n)
-```
+$$\eqalign{
+a_n &= a * n \\
+S_n &= 0.5 * n * (a + a_n) \\
+        &= 0.5 * n * (a + a * n) \\
+        &= 0.5 * n * (a * (1 + n)) \\
+        &= 0.5 * n * a * (1 + n)
+}$$
 
 ```q
 q) s3:{sum 1 1 -1*.5*n*y*1+n:floor x%y,:prd y}
