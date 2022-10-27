@@ -6,13 +6,13 @@
 
 ```q
 // Integers from 0 - 999
-q) til 1000
+til 1000
 
 // mod (modulus) keyword - returns the remainder of the left argument divided by the right arguement
-q) til[1000] mod 3
+til[1000] mod 3
 
 // Add each-right (/:) iterator to apply to both 3 and 5
-q) til[1000] mod/: 3 5
+til[1000] mod/: 3 5
 
 ```
 <br>
@@ -20,28 +20,28 @@ q) til[1000] mod/: 3 5
 Need to find the zeros in either list. There are two choices:
 ```q
 // 1. Use all - Converts to a boolean
-q) all til[1000] mod/: 3 5
+all til[1000] mod/: 3 5
 
 // 2. Use min - Does not convert to a boolean
-q) min til[1000] mod/: 3 5
+min til[1000] mod/: 3 5
 
 // min is faster because it does not convert to a boolean (look at their definitions) 
-q) x:til[1000] mod/: 3 5
-q) \ts:100000 all x
-q) \ts:100000 min x
+x:til[1000] mod/: 3 5
+\ts:100000 all x
+\ts:100000 min x
 ```
 <br>
 
 Intereseted in the numbers whose modulus with 3 or 5 is zero.
 ```q
 // Use the 'not' keyword to flip the zeros to TRUE (1b) and non-zeros to FALSE (0b)
-q) not min til[1000] mod/: 3 5  
+not min til[1000] mod/: 3 5  
 
 // Can use the 'where' keyword to find the indices of the TRUE (1b) values
-q) where not min til[1000] mod/: 3 5
+where not min til[1000] mod/: 3 5
 
 // Just sum the indices as these correspond to the same values in those positions
-q) sum where not min til[1000] mod/: 3 5
+sum where not min til[1000] mod/: 3 5
 ```
 
 ```q
@@ -84,7 +84,7 @@ where <br>
 <br>
 
 ```q
-q) arithSeries:{[a;an;n] .5*n*a+an}
+arithSeries:{[a;an;n] .5*n*a+an}
 ```
 
 NOTE: Multiplying by decimal form is faster than dividing on most modern processors
@@ -137,21 +137,21 @@ arithSeries[a;an;n]
 
 ```q
 // Join first term of common multiples sequence
-q) a,prd a
+a,prd a
 
-q) a:3 5
-q) a,:prd a
-q) n:floor 999%a
-q) an:a*n
-q) arithSeries[a;an;n]
+a:3 5
+a,:prd a
+n:floor 999%a
+an:a*n
+arithSeries[a;an;n]
 
 // Sum the first two arithmetic series and subtract the last
-q) sum 1 1 -1*arithSeries[a;an;n]
+sum 1 1 -1*arithSeries[a;an;n]
 ```
 
 ```q
-q) s2:{sum 1 1 -1*arithSeries[y;;n] y*n:floor x%y,:prd y}
-q) s2[999;3 5] // solution 2
+s2:{sum 1 1 -1*arithSeries[y;;n] y*n:floor x%y,:prd y}
+s2[999;3 5] // solution 2
 ```
 <br>
 
@@ -168,8 +168,8 @@ S_n &= 0.5 * n * (a + a_n) \\
 }$$
 
 ```q
-q) s3:{sum 1 1 -1*.5*n*y*1+n:floor x%y,:prd y}
-q) s3[999;3 5]
+s3:{sum 1 1 -1*.5*n*y*1+n:floor x%y,:prd y}
+s3[999;3 5]
 ```
 <br>
 
@@ -178,8 +178,8 @@ q) s3[999;3 5]
 Use `abs` (absolute) and `neg` (negative) keywords instead of `1 1 -1*`.
 
 ```q
-q) s4:{sum .5*n*y*1+n:floor x%abs y,:neg prd y}
-q) s4[999;3 5]
+s4:{sum .5*n*y*1+n:floor x%abs y,:neg prd y}
+s4[999;3 5]
 ```
 <br>
 
@@ -190,7 +190,7 @@ Arithmetic Series solutions (s2, s3, and s4) have constant time and space comple
 Compared with solution 1 (s1) which has time and space complexity which increases proportionaly with n (O(n)).
 
 ```q
-q) .perf.test[100000;] each (
+.perf.test[100000;] each (
     (`s1;1000;3 5);
     (`s2;999;3 5);
     (`s3;999;3 5);
@@ -198,7 +198,7 @@ q) .perf.test[100000;] each (
  )
 
 // s1 time and memory usage grows with increasing n
-q) .perf.test[10000;] each (
+.perf.test[10000;] each (
     (`s1;100000;3 5);
     (`s2;99999;3 5);
     (`s3;99999;3 5);
