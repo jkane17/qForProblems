@@ -12,29 +12,29 @@ Starting with 0 and 1, each term is found by adding the previous two terms. For 
 <br>
 
 ```q
-/ Only want to sum the last 2 terms each time
+// Only want to sum the last 2 terms each time
 x:0 1
-show x,:sum -2#x / 0 1 1
-show x,:sum -2#x / 0 1 1 2
-show x,:sum -2#x / 0 1 1 2 3
+show x,:sum -2#x // 0 1 1
+show x,:sum -2#x // 0 1 1 2
+show x,:sum -2#x // 0 1 1 2 3
 
-/ Put into a function 
+// Put into a function 
 f:{x,sum -2#x}
 
-f 0 1     / 0 1 1
-f f 0 1   / 0 1 1 2
-f f f 0 1 / 0 1 1 2 3
+f 0 1     // 0 1 1
+f f 0 1   // 0 1 1 2
+f f f 0 1 // 0 1 1 2 3
 
-/ Can do this repeatedly using the 'do' control construct
+// Can do this repeatedly using the 'do' control construct
 x:0 1
 do[10;x:f x]; x
 
-/ However, this is not good q practice
-/ Can instead make use of the over (/) accumulator 
-10 f/ 0 1  / infix notation
-f/[10;0 1] / bracket notation
+// However, this is not good q practice
+// Can instead make use of the over (/) accumulator 
+10 f/ 0 1  // infix notation
+f/[10;0 1] // bracket notation
 
-/ Use scan (\) to see the intermediary results
+// Use scan (\) to see the intermediary results
 10 f\ 0 1
 ```
 <br>
@@ -42,10 +42,10 @@ f/[10;0 1] / bracket notation
 
 Using the bracket notation, we can create a projection which is ready to accept a single argument.
 ```q
-/ First n + 2 Fibonacci numbers
+// First n + 2 Fibonacci numbers
 fib:{x,sum -2#x}/[;0 1]
 
-/ First 10 + 2 Fibonacci numbers
+// First 10 + 2 Fibonacci numbers
 fib 10 
 ```
 <br>
@@ -73,16 +73,16 @@ It compares the last item of the Fibonacci sequence thus far with the max.
 The iteration will continue until the first FALSE value is produced by the predicate function.
 
 ```q
-fibm 50 / 0 1 1 2 3 5 8 13 21 34 55
+fibm 50 // 0 1 1 2 3 5 8 13 21 34 55
 ```
 
 We only want the terms below the argument so, we need to drop the last term.
 
 ```q
-/ Fibonacci numbers below some maximum
+// Fibonacci numbers below some maximum
 fibm:-1_fib {x>last y}@
 
-fibm 50 / 0 1 1 2 3 5 8 13 21 34
+fibm 50 // 0 1 1 2 3 5 8 13 21 34
 ```
 <br>
 
@@ -96,37 +96,37 @@ We can treat the 1 and 0 values as TRUE and FALSE values for checking if a numbe
 isodd:mod[;2]
 
 x:1 2 3 4 5
-isodd x / 1 0 1 0 1
+isodd x // 1 0 1 0 1
 
-/ Check where the value is zero to check if a number is even
+// Check where the value is zero to check if a number is even
 0=isodd x
-/ Get indices of even values
+// Get indices of even values
 where 0=isodd x
-/ Index into the orginal list 
+// Index into the orginal list 
 x where 0=isodd x
 
-/ Filter to return only even numbers
+// Filter to return only even numbers
 evens:{x where 0=isodd x}
 ```
 <br>
 
 ```q
-/ Fibonacci numbers below 4 million
+// Fibonacci numbers below 4 million
 fibm 4000000
-/ Only the even values
+// Only the even values
 evens fibm 4000000
-/ Sum the result
+// Sum the result
 sum evens fibm 4000000
 ```
 <br>
 
 ```q
 s:sum evens fibm@
-s 4000000 / solution
+s 4000000 // solution
 
 \ts:10000 s 4000000
 
-/ Full form
+// Full form
 sf:{sum n where 0=mod[;2] n:-1_{x>last y}[x]{x,sum -2#x}/ 0 1} 
 sf 4000000
 ```

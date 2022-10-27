@@ -5,13 +5,13 @@
 # Solution 1
 
 ```q
-/ Integers from 0 - 999
+// Integers from 0 - 999
 q) til 1000
 
-/ mod (modulus) keyword - returns the remainder of the left argument divided by the right arguement
+// mod (modulus) keyword - returns the remainder of the left argument divided by the right arguement
 q) til[1000] mod 3
 
-/ Add each-right (/:) iterator to apply to both 3 and 5
+// Add each-right (/:) iterator to apply to both 3 and 5
 q) til[1000] mod/: 3 5
 
 ```
@@ -19,13 +19,13 @@ q) til[1000] mod/: 3 5
 
 Need to find the zeros in either list. There are two choices:
 ```q
-/ 1. Use all - Converts to a boolean
+// 1. Use all - Converts to a boolean
 q) all til[1000] mod/: 3 5
 
-/ 2. Use min - Does not convert to a boolean
+// 2. Use min - Does not convert to a boolean
 q) min til[1000] mod/: 3 5
 
-/ min is faster because it does not convert to a boolean (look at their definitions) 
+// min is faster because it does not convert to a boolean (look at their definitions) 
 q) x:til[1000] mod/: 3 5
 q) \ts:100000 all x
 q) \ts:100000 min x
@@ -34,20 +34,20 @@ q) \ts:100000 min x
 
 Intereseted in the numbers whose modulus with 3 or 5 is zero.
 ```q
-/ Use the 'not' keyword to flip the zeros to TRUE (1b) and non-zeros to FALSE (0b)
+// Use the 'not' keyword to flip the zeros to TRUE (1b) and non-zeros to FALSE (0b)
 q) not min til[1000] mod/: 3 5  
 
-/ Can use the 'where' keyword to find the indices of the TRUE (1b) values
+// Can use the 'where' keyword to find the indices of the TRUE (1b) values
 q) where not min til[1000] mod/: 3 5
 
-/ Just sum the indices as these correspond to the same values in those positions
+// Just sum the indices as these correspond to the same values in those positions
 q) sum where not min til[1000] mod/: 3 5
 ```
 
 ```q
 s1:{sum where not all til[x] mod/:y}
 
-s1[1000;3 5] / solution 1
+s1[1000;3 5] // solution 1
 ```
 <br>
 
@@ -58,8 +58,8 @@ s1[1000;3 5] / solution 1
 A sequence of numbers where the difference between the consecutive terms is constant.
 
 ```
-3 6 9 12 15 ...   / Contant difference of 3
-5 10 15 20 25 ... / Contant difference of 5
+3 6 9 12 15 ...   // Contant difference of 3
+5 10 15 20 25 ... // Contant difference of 5
 ```
 <br>
 
@@ -115,17 +115,17 @@ Three inputs are required:
 3. **n** 
     - Simply divide our max term by 3 and 5 to find the number of terms.
     - ```q
-      q) 999%3 5
-      / Round down as n must be an integer
-      q) floor 999%3 5
+      999%3 5
+      // Round down as n must be an integer
+      floor 999%3 5
       ```
 <br>
 
 ```q
-q) a:3 5
-q) n:floor 999%a
-q) an:a*n
-q) arithSeries[a;an;n]
+a:3 5
+n:floor 999%a
+an:a*n
+arithSeries[a;an;n]
 ```
 <br>
 
@@ -136,7 +136,7 @@ q) arithSeries[a;an;n]
 <br>
 
 ```q
-/ Join first term of common multiples sequence
+// Join first term of common multiples sequence
 q) a,prd a
 
 q) a:3 5
@@ -145,13 +145,13 @@ q) n:floor 999%a
 q) an:a*n
 q) arithSeries[a;an;n]
 
-/ Sum the first two arithmetic series and subtract the last
+// Sum the first two arithmetic series and subtract the last
 q) sum 1 1 -1*arithSeries[a;an;n]
 ```
 
 ```q
 q) s2:{sum 1 1 -1*arithSeries[y;;n] y*n:floor x%y,:prd y}
-q) s2[999;3 5] / solution 2
+q) s2[999;3 5] // solution 2
 ```
 <br>
 
@@ -197,7 +197,7 @@ q) .perf.test[100000;] each (
     (`s4;999;3 5)
  )
 
-/ s1 time and memory usage grows with increasing n
+// s1 time and memory usage grows with increasing n
 q) .perf.test[10000;] each (
     (`s1;100000;3 5);
     (`s2;99999;3 5);

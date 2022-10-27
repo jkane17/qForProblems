@@ -32,6 +32,23 @@ max .math.rhoFact[0;2] 600851475143
 
 max .math.palindromes distinct raze n*/:n:.math.range[100;999]
 max raze(.math.palindromes r*)peach r:.math.range[100;999] / parallel algorithm
+/ Very efficient (credit alivigston)
+{
+    // Create all palindromes in reverse order
+    digits:reverse string til 10;
+    palindromes:{[x;y;z]raze x,/:'y,\:/:x}[digits]/[;til x-1];
+    pals:"J"$palindromes 2#/:digits;
+
+    // create all x digit numbers
+    nums:reverse r[1]+til(-/)r:`long$10 xexp 0 -1+\:x;
+    
+    // Recursively check each palindrome, early exit if found
+    {[pals;nums]
+        p:first pals;
+        b:and[first[nums]>n]not mod[;1]n:p%nums mod[p;nums]?0;
+        $[b;p;.z.s[1_pals;nums]]
+    }[pals;nums]
+ } 3
 
 
 // Problem 5 -
