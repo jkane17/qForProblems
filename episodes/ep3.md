@@ -53,10 +53,13 @@ A composite (non prime) number will always have a factor less than or equal to i
 **Proof:**
 
 Let `C` be a composite number such that 
+
 $$ C = n * m $$
+
 i.e, `n` and `m` are factors of `C`.
 
 Also have that
+
 $$ C = \sqrt C * \sqrt C $$
 
 Therefore, at least one of `n` or `m` must be less than or equal to the square root of `C`.
@@ -139,6 +142,7 @@ The previous function can be optimised by noting that only the prime numbers bel
 This is because any composite factor of `N` can itself be factorised. 
 
 For example:
+
 $$\eqalign{
 N &= 16 \\
   &= 4 * 4 \\
@@ -219,7 +223,7 @@ Performance can depend on the input but, in general, pfact2 should be better for
 
 # Part 2 - Pollard's Rho
 
-**Time complexity:** possibly O(n^1/4)]
+**Time complexity:** possibly O(n^1/4)
 
 Fast for a large composite number with small prime factors.
 
@@ -244,11 +248,12 @@ pollardsRho:{[x;c;n] pollardsRho0[x;;n] (mod[;n] c+prd 2#)}
 <br>
 
 ### Greatest common divisor of two numbers (Euclidean algorithm)
-$$\eqalign{
-         &= a,               if b = 0 \\
-gcd(a,b) &= { \\
-         &= gcd(b,a mod b),  otherwise.
-}$$             
+
+```
+gcd(a,b) = a,              if b = 0 
+gcd(a,b) = gcd(b,a mod b), otherwise            
+```
+<br>
 
 ```q
 a:15; b:10
