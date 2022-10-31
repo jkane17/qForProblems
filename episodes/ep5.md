@@ -1,5 +1,5 @@
 ### [Project Euler - Problem 5](https://projecteuler.net/problem=5)
-### [Episode 5]()
+### [Episode 5](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-5/m-p/13304#M198)
 <br>
 
 ## Solution 1 - Brute Force
@@ -140,5 +140,5 @@ s2 20 // solution 2
 <br>
 
 ```q
-.perf.test[1;] each `s1`s2 cross 20
+.perf.test[10;] each `s1`s2 cross 10 20
 ```
