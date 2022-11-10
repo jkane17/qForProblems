@@ -51,5 +51,14 @@ max raze(.math.palindromes r*)peach r:.math.range[100;999] / parallel algorithm
  } 3
 
 
-// Problem 5 -
+// Problem 5 - https://projecteuler.net/problem=5
+{(any mod[;n where 0<>x mod n:2+til x-1]@)(x+)/ x} 20
+.math.lcm 2+til 19
+/ Using gcd (credit cillianreilly)
+{{7h$(x*y)%.math.gcd[x;y]}/[reverse 1+til x]} 20
+
+
+// Problem 6 - https://projecteuler.net/problem=6
+{(s*s:sum n)-sum n*n:1+til x} 100
+{(prd 2#.math.nsum x)-.math.n2sum x} 100 
 

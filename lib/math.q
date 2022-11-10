@@ -22,7 +22,7 @@ divmod:{d,x-y*d:x div y}
 divs:{(0=mod[;y]@) div[;y]\ x}
 
 / Greatest common divisor of two numbers (Euclidean algorithm)
-gcd:{first(0<last@){last[x],(mod). x}/x,y}
+gcd:{first last({y,x mod y}.)/x,y}
 
 / Least common multiple of a list of numbers
 lcm:{prd raze value[p]#'key p:{x,k!n k:where x<n:count each group pfact y}/[(1#0N)!1#0;x]}
@@ -40,6 +40,11 @@ arithN:{[a;d;n] a+d*n-1}
 / Sum of the first n members of an arithmetic progression
 / a : first term, an : n-th term
 arithSeries:{[a;an;n] .5*n*a+an}
+
+/ Sum of the first x positive integers
+nsum:{"j"$.5*x*x+1}
+/ Sum of the squares of the first x positive integers
+n2sum:{div[x*(1+2*x)*x+1;6]} 
 
 / First n+2 Fibonacci numbers
 fib:{x,sum -2#x}/[;0 1]
