@@ -17,6 +17,7 @@ x in p:2 3 5 7 // Check the first few primes
 <br>
 
 All primes greater than 3 have the form 
+
 $$
 	6k \pm 1
 $$
