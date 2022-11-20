@@ -33,6 +33,7 @@ It is possible to obtain a constant time solution using some arithmetic.
     1 + 2 + 3 + ...
 
 This is an arithmetic progression with a = d = 1 (see [episode 1](ep1.md) notes for details on arithmetic progressions). Therefore, the sum of first n natural numbers is
+
 $$    
     S_n = n * ( n + 1 ) / 2
 $$
@@ -47,14 +48,16 @@ nsum 10 100
 ```
 <br>
 
-The sum of the first `n` squares can also be expressed in terms of `n`.
+The sum of the first *n* squares can also be expressed in terms of *n*.
 
-Let `k` be some positive integer value such that 
+Let *k* be some positive integer value such that 
+
 $$
     1 <= k <= n
 $$
 
 Starting with 
+
 $$(k - 1)^3$$
 <br>
 
@@ -71,7 +74,7 @@ $$
 $$
 <br>
 
-Take the sum from `k = 1` to `n`:
+Take the sum from *k = 1* to *n*:
 
 $$
     \sum_{k=1}^n ( k^3 - ( k - 1 )^3 ) = \sum_{k=1}^n 3k^2 - \sum_{k=1}^n 3k + \sum_{k=1}^n 1
@@ -87,15 +90,19 @@ $$
 This is know as a **telescoping series** and can be rewritten.
  
 Letting 
+
 $$
     t[k] = k^3 \text{ and } u[k] = t[k] - t[k - 1],
 $$
 <br>
 
+
+<br>
+
 $$\eqalign{
     LHS &= u[1] + u[2] + ... + u[n] \\
         &= ( t[1] - t[0] ) + ( t[2] - t[1] ) + ( t[3] - t[2] ) + ... + ( t[n - 1] - t[n - 2] ) + ( t[n] - t[n - 1] ) \\
-        &= t[0] + t[n] \text{ As all other terms cancel } \\
+        &= t[0] + t[n] \text{ (As all other terms cancel) } \\
         &= 0^3 + n^3 \\
         &= n^3
 }$$
@@ -135,6 +142,7 @@ $$\eqalign{
 <br>
 
 Therefore, the sum of the first n squares is given by
+
 $$
     S_{n^2} = n * ( 2n + 1 )( n + 1 ) / 6
 $$
