@@ -1,5 +1,5 @@
 ### [Project Euler - Problem 8](https://projecteuler.net/problem=8)
-### [Episode 8]()
+### [Episode 8](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-8/td-p/13458)
 <br>
 
 Store the [large number](../input/p8.txt) in *N*.
