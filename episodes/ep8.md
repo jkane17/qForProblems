@@ -1,0 +1,114 @@
+### [Project Euler - Problem 8](https://projecteuler.net/problem=8)
+### [Episode 8]()
+<br>
+
+Store the [large number](../input/p8.txt) in *N*.
+```q
+N:raze read0 `$":input/p8.txt" 
+```
+<br>
+
+## Solution 1
+<br>
+
+Creating a strided index:
+```q
+// Add each item from the right on to the left
+til[3]+/:til 5
+
+// Strided index
+til[4]+/:til count N
+
+// The last few strides go beyond the max index (999 in our case)
+last til[4]+/:til count N
+
+// Can fix this
+last til[4]+/:til neg[3]+count N
+
+// Create a strided index, with stride size y, until (x - 1)
+strdIdx:{til[y]+/:til neg[y-1]+x}
+
+// Index back into N to get each four digit groups
+N strdIdx[count N;4]
+
+// Cast individual chars to integers
+("J"$') each N strdIdx[count N;4]
+
+// Product of each row
+(prd "J"$') each N strdIdx[count N;4]
+
+// Find the max
+max (prd "J"$') each N strdIdx[count N;4] // 5832
+```
+<br>
+
+```q
+s1:{max (prd "J"$') each x strdIdx[count x;y]}
+s1[N;13] // solution 1
+```
+<br>
+
+## Solution 2
+<br>
+
+```q
+// Can stride the index across columns rather than rows
+til[4]+\:til neg[3]+count N
+
+// Column strided index
+cStrdIdx:{til[y]+\:til neg[y-1]+x}
+
+// prd works column-wise so it can be removed from the "each'd" part of the expression
+max prd ("J"$/:N) cStrdIdx[count N;4]
+```
+<br>
+
+```q
+s2:{max prd ("J"$/:x) cStrdIdx[count x;y]}
+s2[N;13] // solution 2
+```
+<br>
+
+## Solution 3
+<br>
+
+If zero is included in the digits, then the product will always be zero so, we don't need to worry about any lists of digits that contain at least one zero.
+
+```q
+// Split by 0
+"0" vs N
+
+// Only check the lists with 13 or more digits
+a where 13<=count each a:"0" vs N
+
+// Apply what we had before to each list
+{prd ("J"$/:x) cStrdIdx[count x;y]}[;13] each a where 13<=count each a:"0" vs N
+
+// Flatten and find the max
+max raze {prd ("J"$/:x) cStrdIdx[count x;y]}[;13] each a where 13<=count each a:"0" vs N
+```
+<br>
+
+```q
+s3:{max raze {prd ("J"$/:x) cStrdIdx[count x;y]}[;y] each a where y<=count each a:"0" vs x}
+s3[N;13] // solution 3
+```
+<br>
+
+## Performance test
+<br>
+
+```q
+s1p:s1[N;]
+s2p:s2[N;]
+s3p:s3[N;]
+
+t:.perf.test[1000;] each `s1p`s2p`s3p cross 4 13 20 50
+
+// s2 has an improvement over s1 because we cast the whole of N at once (rather than on each row) 
+// and the column wise striding allows us to take advantage of the implicit 'each' of prd 
+select from t where 13 in/: args
+
+// Performance benefits of s3 are seen when taking a larger number of adjacent digits
+select from t where 50 in/: args
+```

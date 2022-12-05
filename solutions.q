@@ -66,3 +66,11 @@ max raze(.math.palindromes r*)peach r:.math.range[100;999] / parallel algorithm
 // Problem 7 - https://projecteuler.net/problem=7
 last {-1_((1+x)>count@){$[isPrime l:last x; x,:l+2; x:(-1_x),l+2]}/2 3} 10001 
 last {x#last(x>count last@){(x[0]+:1;x[1],n where .math.isPrime n:-1 1+6*x 0)}/(1;2 3)} 10001
+
+
+// Problem 8 - https://projecteuler.net/problem=8
+{max prd ("J"$/:x) cStrdIdx[count x;y]}[N;13]
+
+
+
+

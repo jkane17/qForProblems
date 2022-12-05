@@ -80,10 +80,12 @@ isPrime:{@[;where x in 2 3 5 7;:;1b] @'[;x] ({0b};util.isPrime0)0 1 0 1 0 0 0 1 
 / Primes up to X - Best for primes X > 10^5
 primes:util.es util.sieve
 
+nprimes:{x#last(x>count last@){(x[0]+:1;x[1],n where isPrime n:-1 1+6*x 0)}/(1;2 3)} 
+
 / Prime factorisation using trial division
 pfact:{
     if[x<2;:x];
-    p:{while[0=x[0] mod y; x[0]:x[0] div y; x,:y];x}/[1#x;.math.primes ceiling sqrt x];
+    p:{while[0=x[0] mod y; x[0]:x[0] div y; x,:y];x}/[1#x;primes ceiling sqrt x];
     $[1<p 0;p;1_p]
  }
 
@@ -104,4 +106,5 @@ rhoFact:{[x;c;n] if[n<2;:n]; $[all i:isPrime r:rhoFact0[x;c;n]; r; r[where i],ra
 / Prime factorisation using Pollard's rho algorithm where x and c are continuously chosen at random until 
 / x can be factorise. Note that some numbers cannot be factorised and so generate an infinite loop
 rhoFact1:{if[x<2;:x]; ({x[where ip],p,r[i] div p i:where r<>p:pollardsRho1 each r:x where not ip:isPrime x}/) 1#x}
+
 
