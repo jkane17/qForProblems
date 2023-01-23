@@ -1,0 +1,288 @@
+### [Project Euler - Problem 9](https://projecteuler.net/problem=9)
+### [Episode 9](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-9/td-p/13586)
+<br>
+
+## Solution 1
+<br>
+
+We have that 
+
+$$
+\begin{gather*}
+    a < b < c \\
+    a + b + c = 1000
+\end{gather*}
+$$
+
+Therefore, <var>a</var> and <var>b</var> cannot be greater than $500$.
+
+<br />
+
+```q
+// Combinations of all numbers below 500
+n:n cross n:1+til 499
+```
+
+<br />
+
+$$
+\begin{gather}
+    a^2 + b^2 = c^2 \\
+    c = 1000 - a - b
+\end{gather}
+$$
+
+<br />
+
+Substituting (2) into (1)
+
+$$
+\begin{align*}
+a^2 + b^2 &= (1000 - a - b)^2 \\ 
+    &= 1000^2 - 1000a - 1000b - 1000a + a^2 + ab - 1000b + ab + b^2 \\
+    &= 1000^2 - 2000a - 2000b + a^2 + b^2 + 2ab
+\end{align*}
+$$
+
+<br />  
+              
+Cancelling the $a^2$ and $b^2$ on both sides
+
+$$
+1000^2 - 2000a - 2000b + 2ab = 0
+$$
+
+<br />  
+
+Divide by $2$ and rearrange
+
+$$
+ab - 1000a - 1000b = -500,000
+$$
+
+<br />  
+
+Factorise LHS
+
+$$
+( 1000 - a )( 1000 - b ) = 1,000,000 - 1000a - 1000b + ab
+$$
+
+$$
+\implies ( 1000 - a )( 1000 - b ) - 1,000,000 = -500,000
+$$
+
+$$
+\implies ( 1000 - a )( 1000 - b ) = 500,000
+$$
+
+<br /> 
+
+```q
+// ( 1000 - a )( 1000 - b ) 
+(1000-n[;0])*1000-n[;1]
+
+// Can improve this if we do the 1000- when creating n
+n:n cross n:1000-1+til 499
+
+prd each n
+
+// Check those which satisfy the equation
+where 500000=prd each n // 99675 186825
+
+// Indexing into n we see this is just a and b reversed so, we only need to take one of these
+n where 500000=prd each n
+first n where 500000=prd each n
+
+// Subtract from 1000 to get the original a and b
+ab:1000-first n where 500000=prd each n
+
+// Calculate c = 1000 - a - b
+1000-sum ab
+
+// product of a, b and c
+prd ab,1000-sum ab
+```
+
+<br /> 
+
+```q
+s1:{[] prd ab,1000-sum ab:1000-first n where 500000=prd each n:n cross n:1000-1+til 499}
+s1[] // solution 1
+```
+
+<br /> 
+
+## Solution 2
+
+<br /> 
+
+Previously seen that we get the reverse for of each number pair, i.e., our cross produces (<var>a, b</var>) and (<var>b, a</var>).
+
+We do not need to get all combinations, just the unique combinations.
+
+<br /> 
+
+```q
+// Triangle of list
+1+til each n:1+til 499
+// Find the unique products
+n*'1+til each n:1+til 499
+// Add in 1000- to get: ( 1000 - a )( 1000 - b )
+p:(1000-n)*'1000-1+til each n:1+til 499
+
+// Identify where the 500,000 lays
+w:where each 500000=p
+// Index of the row 500,000 is found in
+i:first where count each w
+// Index of the column 500,000 is found in
+j:first w i;
+// Index into n
+ab:n[i],n j; // 200 375
+// product of a, b and c
+prd ab,1000-sum ab
+```
+
+<br /> 
+
+```q
+s2:{[]
+    p:(1000-n)*'1000-1+til each n:1+til 499;
+    w:where each 500000=p;
+    i:first where count each w;
+    j:first w i;
+    ab:n[i],n j;
+    prd ab,1000-sum ab
+ }
+
+s2[] // solution 2
+```
+
+<br /> 
+
+## Solution 3
+
+<br /> 
+
+For every **Pythagorean triplet**, where $a \ge 3$, $\space a + b + c \space$ is even.
+
+<br /> 
+
+Pythagorean triplets <var>a</var>, <var>b</var>, and <var>c</var> can be represented as
+
+$$
+\begin{align*}
+    a &= 2mn \\
+    b &= m^2 - n^2 \\
+    c &= m^2 + n^2
+\end{align*}
+$$
+
+where $0 < n < m, \space$ and <var>m</var> and <var>n</var> are integers.
+
+<br />
+
+$$
+\begin{align*}
+    a + b + c &= 2mn + m^2 - n^2 + m^2 + n^2 \\
+    &= 2m^2 + 2mn \\
+    &= 2m(m + n)
+\end{align*}
+$$
+
+<br />
+
+Let 
+$$
+2m( m + n ) = s 
+$$
+
+($\space s = 1000 \space$ in our particular problem, but we will keep it general.)
+
+<br />
+
+$$
+\begin{align*}
+    &\implies  m + n = s / 2m \\ 
+    &\implies n = (s / 2m) - m
+\end{align*}
+$$
+
+<br />
+
+$$
+\begin{align*}
+    0 < n < m  &\implies  0 < {s \over 2m} - m < m \\ \\
+           &\implies m < {s \over 2m} < 2m \\ \\
+           &\implies 1 < {s \over 2m^2} < 2 \\ \\
+           &\implies { 2 \over s} < {1 \over m^2} < {4 \over s} \\ \\
+           &\implies {s \over 4} < m^2 < {s \over 2} \\ \\
+           &\implies  {\sqrt{s} \over 2} < m < \sqrt{s \over 2 }
+\end{align*}
+$$
+
+<br />
+
+Only need to try values of <var>m</var> between $\sqrt{s} \over 2$ and $\sqrt{s \over 2}$.
+
+<br />
+
+```q
+s:1000
+r:(floor;ceiling)@'1 -1+sqrt[s]%2,sqrt 2 // Lower and upper bounds
+
+// Possible values of m
+m:.math.range . r
+// Corresponding values for n, a, b, and c
+n:neg[m]+s div 2*m          // n = (s / 2m) - m
+a:2*m*n                     // a = 2mn
+b:(-). mn2:"j"$(m;n) xexp 2 // m^2 - n^2
+c:sum mn2                   // m^2 + n^2
+
+// Where is s found
+// Use 0| to do max between a, b, and c with 0 becuase some values can be negative
+i:where s=sum v:0|(a;b;c)
+
+// Pythagorean triplet where a + b + c = 1000
+first v[;i]
+
+// Can make this a general function 
+
+// Pythagorean Triplet where a + b + c = x
+pyTriplet:{
+    m:.math.range . (floor;ceiling)@'1 -1+sqrt[x]%2,sqrt 2;
+    n:neg[m]+x div 2*m;       
+    a:2*m*n;                   
+    b:(-). mn2:"j"$(m;n) xexp 2; 
+    c:sum mn2; 
+    i:where x=sum v:0|(a;b;c);
+    flip v[;i]
+ }
+
+pyTriplet 1000
+pyTriplet 720   // may have multiple triplets for the same s
+pyTriplet 10    // empty list if no such triplet exists
+
+// All Pythagorean Triplets below x 
+pyTriplets:{(i+1)!n i:where 0<count each n:pyTriplet each 1+til x}
+
+pyTriplets 100
+```
+
+See [episode 4](ep4.md) for `.math.range` function description.
+
+<br />
+
+```q
+s3:prd first pyTriplet@ 
+s3 1000 // solution 3
+```
+
+<br />
+
+## Performance test
+
+```q
+// Solution 3 is general and is very efficient
+.perf.test[100;] each ((`s1;());(`s2;());(`s3;1000))
+```

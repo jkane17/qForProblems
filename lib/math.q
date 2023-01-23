@@ -30,6 +30,20 @@ lcm:{prd raze value[p]#'key p:{x,k!n k:where x<n:count each group pfact y}/[(1#0
 / Returns only the numbers which are palindromes
 palindromes:{x where x="J"$reverse each string x}
 
+/ Pythagorean Triplet where a + b + c = x
+pyTriplet:{
+    m:.math.range . (floor;ceiling)@'1 -1+sqrt[x]%2,sqrt 2;
+    n:neg[m]+x div 2*m;       
+    a:2*m*n;                   
+    b:(-). mn2:"j"$(m;n) xexp 2; 
+    c:sum mn2; 
+    i:where x=sum v:0|(a;b;c);
+    flip v[;i]
+ }
+
+/ All Pythagorean Triplets below x 
+pyTriplets:{(i+1)!n i:where 0<count each n:pyTriplet each 1+til x}
+
 
 ///// Number Sequences /////
 

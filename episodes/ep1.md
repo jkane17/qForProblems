@@ -1,6 +1,7 @@
 ### [Project Euler - Problem 1](https://projecteuler.net/problem=1)
 ### [Episode 1](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-1/m-p/13090#M150)
-<br>
+
+<br />
 
 # Solution 1
 
@@ -15,7 +16,7 @@ til[1000] mod 3
 til[1000] mod/: 3 5
 
 ```
-<br>
+<br />
 
 Need to find the zeros in either list. There are two choices:
 ```q
@@ -30,7 +31,7 @@ x:til[1000] mod/: 3 5
 \ts:100000 all x
 \ts:100000 min x
 ```
-<br>
+<br />
 
 Intereseted in the numbers whose modulus with 3 or 5 is zero.
 ```q
@@ -44,12 +45,15 @@ where not min til[1000] mod/: 3 5
 sum where not min til[1000] mod/: 3 5
 ```
 
+<br />
+
 ```q
 s1:{sum where not all til[x] mod/:y}
 
 s1[1000;3 5] // solution 1
 ```
-<br>
+
+<br />
 
 # Solution 2
 
@@ -58,10 +62,11 @@ s1[1000;3 5] // solution 1
 A sequence of numbers where the difference between the consecutive terms is constant.
 
 ```
-3 6 9 12 15 ...   // Contant difference of 3
-5 10 15 20 25 ... // Contant difference of 5
+3 6 9 12 15 ...   // Constant difference of 3
+5 10 15 20 25 ... // Constant difference of 5
 ```
-<br>
+
+<br />
 
 ### [Arithmetic Series](https://en.wikipedia.org/wiki/Arithmetic_progression#Sum)
 
@@ -71,55 +76,64 @@ The sum of the members of a finite arithmetic progression.
 3 + 6 + 9 + 12 + 15 + ... + an
 5 + 10 + 15 + 20 + 25 + ... + an
 ```
-where a<sub>n</sub> is the last term.
-<br>
-<br>
 
-$$ S_n = n * (a + a_n) / 2 $$
+where <var>a<sub>n</sub></var> is the last term.
 
-where <br>
-- n  -->  Number of terms in the sequence
-- a  -->  First term in the sequence
-- an -->  n-th (final) term in the sequence
-<br>
+<br />
+
+$$
+S_n = n * (a + a_n) / 2
+$$
+
+where 
+- <var>n</var>  -->  Number of terms in the sequence
+- <var>a</var>  -->  First term in the sequence
+- <var>a<sub>n</sub></var> -->  n-th (final) term in the sequence
+
+<br/>
 
 ```q
 arithSeries:{[a;an;n] .5*n*a+an}
 ```
 
-NOTE: Multiplying by decimal form is faster than dividing on most modern processors
+NOTE: Multiplying by decimal form is faster than dividing on most modern processors.
+
 ```q
 \ts:1000000 10%2
 \ts:1000000 .5*10
 ```
-<br>
+
+<br />
 
 Three inputs are required: 
 
-1. **a**
+1. <var>a</var>
    - Will start the sequences at 3 and 5 (allows us to take advantage of a special case detailed below).
    - Could start at 0, but it would not contribute to the sum anyways.
 
-2. **a<sub>n</sub>**
+2. <var>a<sub>n</sub></var>
     - Equation to calculate the n-th term of an arithmetic progression.
-    - $a_n = a + d * (n - 1)$ <br>
+    - $a_n = a + d * (n - 1)$ <br />
       where d is the common difference (3 and 5 in our case).
     - `arithN:{[a;d;n] a+d*n-1}`
-    - Special case because a = d
-      ```
-      an = a + a * (n - 1)
-         = a * (1 + (n - 1))
-         = a * n
-      ```
+    - Special case because $a = d$
+      $$
+      \begin{align*}
+        a_n &= a + a * (n - 1) \\
+          &= a * (1 + (n - 1)) \\
+          &= a * n
+      \end{align*}
+      $$
 
-3. **n** 
-    - Simply divide our max term by 3 and 5 to find the number of terms.
+1. <var>n</var> 
+    - Simply divide our max term by *3* and *5* to find the number of terms.
     - ```q
       999%3 5
       // Round down as n must be an integer
       floor 999%3 5
       ```
-<br>
+
+<br />
 
 ```q
 a:3 5
@@ -131,9 +145,10 @@ arithSeries[a;an;n]
 
 ### Consideration!
   - Summing two arithmetic progressions with overlapping values.
-  - Therefore, we are double counting all the terms which are multiples of both 3 and 5, i.e., `15 30 45 60 75 ...`.
-  - To cancel out the double counting, we can subtract the arithmetic series of `15 30 45 60 75 ...` from the sum of the 3 and 5 arithmetic series'.
-<br>
+  - Therefore, we are double counting all the terms which are multiples of both *3* and *5*, i.e., `15 30 45 60 75 ...`.
+  - To cancel out the double counting, we can subtract the arithmetic series of `15 30 45 60 75 ...` from the sum of the *3* and *5* arithmetic series'.
+  
+<br />
 
 ```q
 // Join first term of common multiples sequence
@@ -159,19 +174,22 @@ s2[999;3 5] // solution 2
 
 Can simplify the arithmetic series equation (due to the special case described previously) to improve our solution.
 
-$$\eqalign{
-a_n &= a * n \\
-S_n &= 0.5 * n * (a + a_n) \\
+$$
+\begin{align*}
+  a_n &= a * n \\
+  S_n &= 0.5 * n * (a + a_n) \\
         &= 0.5 * n * (a + a * n) \\
         &= 0.5 * n * (a * (1 + n)) \\
         &= 0.5 * n * a * (1 + n)
-}$$
+\end{align*}
+$$
 
 ```q
 s3:{sum 1 1 -1*.5*n*y*1+n:floor x%y,:prd y}
-s3[999;3 5]
+s3[999;3 5] // solution 3
 ```
-<br>
+
+<br />
 
 # Solution 4
 
@@ -181,13 +199,14 @@ Use `abs` (absolute) and `neg` (negative) keywords instead of `1 1 -1*`.
 s4:{sum .5*n*y*1+n:floor x%abs y,:neg prd y}
 s4[999;3 5]
 ```
-<br>
+
+<br />
 
 # Performance test
 
-Arithmetic Series solutions (s2, s3, and s4) have constant time and space complexity (O(1)).
+Arithmetic Series solutions (s2, s3, and s4) have constant time and space complexity ( <var>O(1)</var> ).
 
-Compared with solution 1 (s1) which has time and space complexity which increases proportionaly with n (O(n)).
+Compared with [solution 1](#solution-1) (s1) which has time and space complexity which increases proportionaly with n ( <var>O(n)</var> ).
 
 ```q
 .perf.test[100000;] each (
