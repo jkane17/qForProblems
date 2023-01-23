@@ -117,15 +117,16 @@ Three inputs are required:
       where d is the common difference (3 and 5 in our case).
     - `arithN:{[a;d;n] a+d*n-1}`
     - Special case because $a = d$
-      $$
-      \begin{align*}
-        a_n &= a + a * (n - 1) \\
-          &= a * (1 + (n - 1)) \\
-          &= a * n
-      \end{align*}
-      $$
+      
+$$
+\begin{align*}
+  a_n &= a + a * (n - 1) \\
+    &= a * (1 + (n - 1)) \\
+    &= a * n
+\end{align*}
+$$
 
-1. <var>n</var> 
+3. <var>n</var> 
     - Simply divide our max term by *3* and *5* to find the number of terms.
     - ```q
       999%3 5
