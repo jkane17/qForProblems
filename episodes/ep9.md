@@ -1,9 +1,11 @@
 ### [Project Euler - Problem 9](https://projecteuler.net/problem=9)
 ### [Episode 9](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-9/td-p/13586)
-<br>
+
+<br />
 
 ## Solution 1
-<br>
+
+<br />
 
 We have that 
 
@@ -281,6 +283,8 @@ s3 1000 // solution 3
 <br />
 
 ## Performance test
+
+<br />
 
 ```q
 // Solution 3 is general and is very efficient

@@ -32,7 +32,7 @@ palindromes:{x where x="J"$reverse each string x}
 
 / Pythagorean Triplet where a + b + c = x
 pyTriplet:{
-    m:.math.range . (floor;ceiling)@'1 -1+sqrt[x]%2,sqrt 2;
+    m:range . (floor;ceiling)@'1 -1+sqrt[x]%2,sqrt 2;
     n:neg[m]+x div 2*m;       
     a:2*m*n;                   
     b:(-). mn2:"j"$(m;n) xexp 2; 
@@ -43,7 +43,6 @@ pyTriplet:{
 
 / All Pythagorean Triplets below x 
 pyTriplets:{(i+1)!n i:where 0<count each n:pyTriplet each 1+til x}
-
 
 ///// Number Sequences /////
 

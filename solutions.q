@@ -72,5 +72,12 @@ last {x#last(x>count last@){(x[0]+:1;x[1],n where .math.isPrime n:-1 1+6*x 0)}/(
 {max prd ("J"$/:x) cStrdIdx[count x;y]}[N;13]
 
 
+// Problem 9 - https://projecteuler.net/problem=9
+prd first .math.pyTriplet 1000
+
+
+// Problem 10 - https://leetcode.com/problems/two-sum/
+{[t;n] (99=type@){[t;n;m] $[count[m]=count n; "j"$(); null m t-x:n i:1+last m; m,(1#x)!1#i; m[t-x],i]}[t;n]/(1#n)!1#0}[9;2 7 11 15]
+
 
 
