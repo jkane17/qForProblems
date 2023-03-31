@@ -3,9 +3,7 @@
 
 <br />
 
-## Solution 1
-
-<br />
+# Solution 1
 
 We have that 
 
@@ -16,7 +14,7 @@ $$
 \end{gather*}
 $$
 
-Therefore, <var>a</var> and <var>b</var> cannot be greater than $500$.
+Therefore, *a* and *b* cannot be greater than $500$.
 
 <br />
 
@@ -115,11 +113,9 @@ s1[] // solution 1
 
 <br /> 
 
-## Solution 2
+# Solution 2 
 
-<br /> 
-
-Previously seen that we get the reverse for of each number pair, i.e., our cross produces (<var>a, b</var>) and (<var>b, a</var>).
+Previously seen that we get the reverse for each number pair, i.e., our cross produces $(a, b)$ and $(b, a)$.
 
 We do not need to get all combinations, just the unique combinations.
 
@@ -162,15 +158,13 @@ s2[] // solution 2
 
 <br /> 
 
-## Solution 3
-
-<br /> 
+# Solution 3
 
 For every **Pythagorean triplet**, where $a \ge 3$, $\space a + b + c \space$ is even.
 
 <br /> 
 
-Pythagorean triplets <var>a</var>, <var>b</var>, and <var>c</var> can be represented as
+Pythagorean triplets *a*, *b*, and *c* can be represented as
 
 $$
 \begin{align*}
@@ -180,7 +174,7 @@ $$
 \end{align*}
 $$
 
-where $0 < n < m, \space$ and <var>m</var> and <var>n</var> are integers.
+where $0 < n < m, \space$ and *m* and *n* are integers.
 
 <br />
 
@@ -195,8 +189,9 @@ $$
 <br />
 
 Let 
+
 $$
-2m( m + n ) = s 
+    2m( m + n ) = s 
 $$
 
 ($\space s = 1000 \space$ in our particular problem, but we will keep it general.)
@@ -225,7 +220,7 @@ $$
 
 <br />
 
-Only need to try values of <var>m</var> between $\sqrt{s} \over 2$ and $\sqrt{s \over 2}$.
+Only need to try values of *m* between $\sqrt{s} \over 2$ and $\sqrt{s \over 2}$.
 
 <br />
 
@@ -282,11 +277,9 @@ s3 1000 // solution 3
 
 <br />
 
-## Performance test
-
-<br />
+# Performance test
 
 ```q
-// Solution 3 is general and is very efficient
+// Solution 3 is general and very efficient
 .perf.test[100;] each ((`s1;());(`s2;());(`s3;1000))
 ```

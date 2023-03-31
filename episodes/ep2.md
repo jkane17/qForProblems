@@ -5,8 +5,6 @@
 
 # Solution 1
 
-<br />
-
 ### Fibonacci sequence
 Starting with $0$ and $1$, each term is found by adding the previous two terms. For example,
 ```
@@ -45,6 +43,7 @@ f/[10;0 1] // bracket notation
 <br />
 
 Using the bracket notation, we can create a projection which is ready to accept a single argument.
+
 ```q
 // First n + 2 Fibonacci numbers
 fib:{x,sum -2#x}/[;0 1]
@@ -57,22 +56,23 @@ fib 10
 
 We require the Fibonacci numbers whose value do not exceed $4$ million. 
 
-The **over** and **scan** accumulators are overloaded so, their behaviour changes based on the arguments.
+The `over` and `scan` accumulators are overloaded so, their behaviour changes based on the arguments.
 
-Providing a predicate function (function which returns a *TRUE* or *FALSE* value) instead of an integer will make **over** a 'while' accumulator instead of a 'do' accumulator.
+Providing a predicate function (function which returns a *TRUE* or *FALSE* value) instead of an integer will make `over` a 'while' accumulator instead of a 'do' accumulator.
+
 ```q
 fibm:fib {x>last y}@ 
 ```
 
 <br />
 
-**NOTE**: The `@` creates a composition function which knows it must still receive an argument before it is executed. Otherwise, fib would try to execute with an arguement of the lambda `{x>last y}`.
+**NOTE**: The `@` operator creates a composition function which knows it must still receive an argument before it is executed. Otherwise, `fib` would try to execute with an arguement of the lambda `{x>last y}`.
 
-<br /><br />
+<br />
 
 The predicate function takes two arguments:
-  - x : The max Fibonacci number (e.g. $50$ as below).
-  - y : The current list of Fibonacci numbers (output of `fib` at each iteration).
+  - *x* : The max Fibonacci number (e.g. $50$ as below).
+  - *y* : The current list of Fibonacci numbers (output of `fib` at each iteration).
 
 It compares the last item of the Fibonacci sequence thus far with the max.
 
@@ -98,6 +98,7 @@ Apply the modulus with a second argument of $2$ to check whether a number is eve
 An odd number will have a remainder of $1$ and an even number will have a remainder of $0$.
 
 We can treat the $1$ and $0$ values as *TRUE* and *FALSE* values for checking if a number is odd.
+
 ```q
 isodd:mod[;2]
 

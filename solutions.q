@@ -69,6 +69,7 @@ last {x#last(x>count last@){(x[0]+:1;x[1],n where .math.isPrime n:-1 1+6*x 0)}/(
 
 
 // Problem 8 - https://projecteuler.net/problem=8
+N:raze read0 `$":input/p8.txt" 
 {max prd ("J"$/:x) cStrdIdx[count x;y]}[N;13]
 
 
@@ -78,6 +79,23 @@ prd first .math.pyTriplet 1000
 
 // Problem 10 - https://leetcode.com/problems/two-sum/
 {[t;n] (99=type@){[t;n;m] $[count[m]=count n; "j"$(); null m t-x:n i:1+last m; m,(1#x)!1#i; m[t-x],i]}[t;n]/(1#n)!1#0}[9;2 7 11 15]
+/ (Credit jbetz34)
+{i where x=yi+yi@yi bin x-yi:y i:iasc y}[9;2 7 11 15]
 
 
+// Problem 11 - https://projecteuler.net/problem=11
+N:("J"$" " vs) each read0 `$"input/p11.txt"
+{[n;x]
+    c:1+r:count n;
+    i:.util.cStrdIdx[r*c;x];
+    rn:raze n,\:0;
+    ds:c*til x;
+    d:neg c*x-1;
 
+    max prd (,'/)(
+        rn i;                            // Horizontal
+        raze[flip[n],\:0] i;             // Vertical
+        rn ds+d _/:i;                    // Right diagonal 
+        raze[0,/:n](ds+x-2*til x)+d _/:i // Left diagonal
+    )
+ }[N;4]

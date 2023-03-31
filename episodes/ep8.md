@@ -1,17 +1,20 @@
 ### [Project Euler - Problem 8](https://projecteuler.net/problem=8)
 ### [Episode 8](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-8/td-p/13458)
-<br>
+
+<br />
 
 Store the [large number](../input/p8.txt) in *N*.
+
 ```q
 N:raze read0 `$":input/p8.txt" 
 ```
-<br>
 
-## Solution 1
-<br>
+<br />
+
+# Solution 1
 
 Creating a strided index:
+
 ```q
 // Add each item from the right on to the left
 til[3]+/:til 5
@@ -28,7 +31,7 @@ last til[4]+/:til neg[3]+count N
 // Create a strided index, with stride size y, until (x - 1)
 strdIdx:{til[y]+/:til neg[y-1]+x}
 
-// Index back into N to get each four digit groups
+// Index back into N to get each four digit group
 N strdIdx[count N;4]
 
 // Cast individual chars to integers
@@ -40,16 +43,17 @@ N strdIdx[count N;4]
 // Find the max
 max (prd "J"$') each N strdIdx[count N;4] // 5832
 ```
-<br>
+
+<br />
 
 ```q
 s1:{max (prd "J"$') each x strdIdx[count x;y]}
 s1[N;13] // solution 1
 ```
-<br>
 
-## Solution 2
-<br>
+<br />
+
+# Solution 2
 
 ```q
 // Can stride the index across columns rather than rows
@@ -61,16 +65,17 @@ cStrdIdx:{til[y]+\:til neg[y-1]+x}
 // prd works column-wise so it can be removed from the "each'd" part of the expression
 max prd ("J"$/:N) cStrdIdx[count N;4]
 ```
-<br>
+
+<br />
 
 ```q
 s2:{max prd ("J"$/:x) cStrdIdx[count x;y]}
 s2[N;13] // solution 2
 ```
-<br>
 
-## Solution 3
-<br>
+<br />
+
+# Solution 3
 
 If zero is included in the digits, then the product will always be zero so, we don't need to worry about any lists of digits that contain at least one zero.
 
@@ -87,16 +92,17 @@ a where 13<=count each a:"0" vs N
 // Flatten and find the max
 max raze {prd ("J"$/:x) cStrdIdx[count x;y]}[;13] each a where 13<=count each a:"0" vs N
 ```
-<br>
+
+<br />
 
 ```q
 s3:{max raze {prd ("J"$/:x) cStrdIdx[count x;y]}[;y] each a where y<=count each a:"0" vs x}
 s3[N;13] // solution 3
 ```
-<br>
 
-## Performance test
-<br>
+<br />
+
+# Performance test
 
 ```q
 s1p:s1[N;]

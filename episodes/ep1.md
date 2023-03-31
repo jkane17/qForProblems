@@ -49,7 +49,6 @@ sum where not min til[1000] mod/: 3 5
 
 ```q
 s1:{sum where not all til[x] mod/:y}
-
 s1[1000;3 5] // solution 1
 ```
 
@@ -77,7 +76,7 @@ The sum of the members of a finite arithmetic progression.
 5 + 10 + 15 + 20 + 25 + ... + an
 ```
 
-where <var>a<sub>n</sub></var> is the last term.
+where *a<sub>n</sub>* is the last term.
 
 <br />
 
@@ -86,9 +85,9 @@ S_n = n * (a + a_n) / 2
 $$
 
 where 
-- <var>n</var>  -->  Number of terms in the sequence
-- <var>a</var>  -->  First term in the sequence
-- <var>a<sub>n</sub></var> -->  n-th (final) term in the sequence
+- *n*  -->  Number of terms in the sequence
+- *a*  -->  First term in the sequence
+- *a<sub>n</sub>* -->  n<sup>th</sup> (final) term in the sequence
 
 <br/>
 
@@ -107,11 +106,11 @@ NOTE: Multiplying by decimal form is faster than dividing on most modern process
 
 Three inputs are required: 
 
-1. <var>a</var>
+1. *a*
    - Will start the sequences at 3 and 5 (allows us to take advantage of a special case detailed below).
    - Could start at 0, but it would not contribute to the sum anyways.
 
-2. <var>a<sub>n</sub></var>
+2. *a<sub>n</sub>*
     - Equation to calculate the n-th term of an arithmetic progression.
     - $a_n = a + d * (n - 1)$ <br />
       where d is the common difference (3 and 5 in our case).
@@ -126,8 +125,8 @@ $$
 \end{align*}
 $$
 
-3. <var>n</var> 
-    - Simply divide our max term by *3* and *5* to find the number of terms.
+3. *n* 
+    - Simply divide our max term by $3$ and $5$ to find the number of terms.
     - ```q
       999%3 5
       // Round down as n must be an integer
@@ -146,8 +145,8 @@ arithSeries[a;an;n]
 
 ### Consideration!
   - Summing two arithmetic progressions with overlapping values.
-  - Therefore, we are double counting all the terms which are multiples of both *3* and *5*, i.e., `15 30 45 60 75 ...`.
-  - To cancel out the double counting, we can subtract the arithmetic series of `15 30 45 60 75 ...` from the sum of the *3* and *5* arithmetic series'.
+  - Therefore, we are double counting all the terms which are multiples of both $3$ and $5$, i.e., `15 30 45 60 75 ...`.
+  - To cancel out the double counting, we can subtract the arithmetic series of `15 30 45 60 75 ...` from the sum of the $3$ and $5$ arithmetic series'.
   
 <br />
 
@@ -205,9 +204,9 @@ s4[999;3 5]
 
 # Performance test
 
-Arithmetic Series solutions (s2, s3, and s4) have constant time and space complexity ( <var>O(1)</var> ).
+Arithmetic Series solutions (s2, s3, and s4) have constant time and space complexity $(O(1))$.
 
-Compared with [solution 1](#solution-1) (s1) which has time and space complexity which increases proportionaly with n ( <var>O(n)</var> ).
+Compared with [solution 1](#solution-1) (s1) which has time and space complexity which increases proportionaly with n $(O(1))$.
 
 ```q
 .perf.test[100000;] each (
@@ -224,4 +223,4 @@ Compared with [solution 1](#solution-1) (s1) which has time and space complexity
     (`s3;99999;3 5);
     (`s4;99999;3 5)
  )
- ```
+```

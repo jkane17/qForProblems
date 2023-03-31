@@ -1,19 +1,22 @@
 ### [Project Euler - Problem 3](https://projecteuler.net/problem=3)
 ### [Episode 3](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-3/m-p/13210#M180)
-<br>
+
+<br />
 
 # Part 1 - Trial division
 
-**Time complexity:** O(sqrt n)
-<br><br>
+**Time complexity:** $O(\sqrt n)$
 
-### Prime (Integer) factorisation
+<br />
 
+### Prime (Integer) factorisation :
 Expressing an integer as a product of its prime factors.
-<br><br>
+
+<br />
 
 ## Solution 1
-<br>
+
+<br />
 
 ```q
 N:100 // Number to factorise
@@ -42,27 +45,33 @@ while[0=N mod d; p,:d; N:N div d]
 // N is no longer evenly divisible by d so, move on to the next number
 d+:1 // 3
 ```
-<br>
 
-Continue in this fashion until d exceeds the square root of the original N.
-<br><br>
+<br />
+
+Continue in this fashion until *d* exceeds the square root of the original *N*.
+
+<br />
 
 ### Why the square root?
 A composite (non prime) number will always have a factor less than or equal to its square root.
 
 **Proof:**
 
-Let `C` be a composite number such that 
+Let *C* be a composite number such that 
 
 $$ C = n * m $$
 
-i.e, `n` and `m` are factors of `C`.
+i.e, *n* and *m* are factors of *C*.
 
-Also have that
+<br />
+
+We also have that
 
 $$ C = \sqrt C * \sqrt C $$
 
-Therefore, at least one of `n` or `m` must be less than or equal to the square root of `C`.
+Therefore, at least one of *n* or *m* must be less than or equal to the square root of *C*.
+
+<br />
 
 ```q
 N:100; p:(); d:2 // Reset
@@ -94,21 +103,24 @@ while[(N>1) and s>=d;
     d+:1
  ]
 ```
-<br>
 
-`p` now contains the prime factors of `N`.
+<br />
 
-It may be the case that `N > 1` by the end of the loop.
+*p* now contains the prime factors of *N*.
 
-This happens if `N` eventually becomes a prime factor itself.
+It may be the case that $N>1$ by the end of the loop.
 
-Need to join `N` to `p` if this is the case.
+This happens if *N* eventually becomes a prime factor itself.
+
+Need to join *N* to *p* if this is the case.
+
 ```q
 $[1<N;p,N;p]
 ```
-<br>
 
-Putting it altogether in a function:
+<br />
+
+Putting it altogether into a function:
 ```q
 pfact1:{
     if[x<2;:x]; // values less than 2 are simply returned 
@@ -122,45 +134,53 @@ pfact1:{
     $[1<x;p,x;p]
  }
 
-max pfact1 600851475143 / solution 1
+max pfact1 600851475143 // solution 1
 ```
+
+<br />
 
 **Note:** 
 
 q development style usually tries to avoid using the `while` control construct and instead opt for the `over`/`scan` accumulators.
 
-However, the previous algorithm involes holding state of multiple values (`N`, `d` and `p`) and passing this state between iterations.
+However, the previous algorithm involes holding state of multiple values (*N*, *d* and *p*) and passing this state between iterations.
 
 This can lead to messy (and even less performant) code, which was the case here.
-<br><br>
+
+<br />
 
 ## Solution 2
-<br>
 
-The previous function can be optimised by noting that only the prime numbers below the square of `N` need to be checked.
+<br />
 
-This is because any composite factor of `N` can itself be factorised. 
+The previous function can be optimised by noting that only the prime numbers below the square of *N* need to be checked.
+
+This is because any composite factor of *N* can itself be factorised. 
 
 For example:
 
-$$\eqalign{
-N &= 16 \\
-  &= 4 * 4 \\
-  &= 2 * 2 * 2 * 2
-}$$
+$$
+\begin{align*}
+    N &= 16 \\
+    &= 4 * 4 \\
+    &= 2 * 2 * 2 * 2
+\end{align*}
+$$
 
-There is no point checking `16` because we will have already covered it when we checked `2`.
-<br><br>
+There is no point checking $16$ because we will have already covered it when we checked $2$.
+
+<br />
 
 Primes generated using the Sieve of Eratosthenes algorithm described [here](https://community.kx.com/t5/Community-Blogs/Finding-primes-with-q/ba-p/11120).
 ```q
 prms:.math.primes ceiling sqrt N:100
 ```
-<br>
+
+<br />
 
 Can now use the `over` (`/`) accumulator instead of the outer while loop.
 
-To maintain the list of factors found so far, the first argument to the accumulator (which is passed in on each iteration) is a list whose first element is the current value of N and all other elements are the factors found so far.
+To maintain the list of factors found so far, the first argument to the accumulator (which is passed in on each iteration) is a list whose first element is the current value of *N* and all other elements are the factors found so far.
 
 ```q
 {
@@ -172,12 +192,13 @@ To maintain the list of factors found so far, the first argument to the accumula
  }/[1#N;prms] 
 ```
 
-Printing out the intermediary values, using scan (\), shows that the iterations could be stopped when N equals 1.
+Printing out the intermediary values, using `scan` (`\`), shows that the iterations could be stopped when *N* equals $1$.
+
 ```q
 {while[0=x[0] mod y; x[0]:x[0] div y; x,:y]; x}\[1#N;prms] 
 ```
 
-Could use the `while` form of the over accumulator to add the condition but we need to maintain state and incremement an index value.
+Could use the `while` form of the `over` accumulator to add the condition but we need to maintain state and incremement an index value.
 
 It is clearer to use the `while` control construct.
 
@@ -191,7 +212,8 @@ while[(i<ct) and x>1; // Check we do not exceed the max index or prms and that x
     i+:1 // Move on to the next prime factor
  ]
 ```
-<br>
+
+<br />
 
 ```q
 pfact2:{
@@ -210,22 +232,24 @@ pfact2:{
 max pfact2 600851475143 // solution 2
 ```
 
+<br />
 
-Performance can depend on the input but, in general, pfact2 should be better for larger numbers
+Performance can depend on the input but, in general, `pfact2` should be better for larger numbers
 ```q
 .perf.test[100;] each ((`pfact1;600851475143);(`pfact2;600851475143)) // Number from problem (small factors)
 .perf.test[10;] each ((`pfact1;435517289103);(`pfact2;435517289103))  // Number with large factor
 .perf.test[1;] each ((`pfact1;593144405383);(`pfact2;593144405383))   // Large prime number
 ```
-<br>
 
-
+<br/>
 
 # Part 2 - Pollard's Rho
 
-**Time complexity:** possibly O(n^1/4)
+**Time complexity:** possibly $O(\sqrt[4] n)$
 
 Fast for a large composite number with small prime factors.
+
+<br/>
 
 ```q
 // x - Starting value (usually 2)
@@ -245,23 +269,27 @@ pollardsRho0:{[x;f;n]
 // c - An integer value (usually 1)
 pollardsRho:{[x;c;n] pollardsRho0[x;;n] (mod[;n] c+prd 2#)}
 ```
-<br>
+
+<br />
 
 ### Greatest common divisor of two numbers (Euclidean algorithm)
 
-```
-gcd(a,b) = a,              if b = 0 
-gcd(a,b) = gcd(b,a mod b), otherwise            
-```
-<br>
+$$
+gcd(a,b) = \begin{cases}
+   a &\text{if } b = 0 \\
+   gcd(b, a\mod b) &\text{otherwise}
+\end{cases}
+$$
+
+<br />
 
 ```q
 a:15; b:10
 // Example: gcd[15;10] = gcd[10;5] = gcd[5;0] = 5
-show n:b,a mod b // 10 5
+n:b,a mod b // 10 5
 a:n 0; b:n 1
 // b not equal to zero -> CONTINUE
-show n:b,a mod b // 5 0
+n:b,a mod b // 5 0
 a:n 0; b:n 1
 // b equal to zero -> RETURN a
 a // 5
@@ -283,12 +311,15 @@ gcd:{first(0<last@){last[x],(mod). x}/x,y}
 // gcd of a list of numbers
 (gcd/) 12 18 42 60
 ```
-<br>
+
+<br />
 
 ## Solution 3
-<br>
 
-Pollard's Rho algorithm only returns one factor so, we need to remove the factor from N and repeat.
+<br />
+
+Pollard's Rho algorithm only returns one factor so, we need to remove the factor from *N* and repeat.
+
 ```q
 N:600851475143
 
@@ -313,20 +344,24 @@ f f N     // 71 839 10086647
 f f f N   // 71 839 6857 1471
 f f f f N // 71 839 6857 1471 - Repeated!
 ```
-<br>
+
+<br />
 
 Use the converge form of the `over` (`/`) accumulator to repeat until the same result is repeated.
+
 ```q
 (f/) 1#N
 ```
 
-Also want to make the x and c arguments for pollardsRho function configurable.
+Also want to make the *x* and *c* arguments for pollardsRho function configurable.
+
 ```q
 f:{[x;c;n] ({p,z[i] div p i:where z<>p:pollardsRho[x;y] each z}[x;c]/) 1#n}
 f[0;2;N] 
 ```
 
-Finally, add special handling for values less than 2.
+Finally, add special handling for values less than $2$.
+
 ```q
 rhoFact1:{[x;c;n] 
     if[n<2;:n]; 
@@ -335,10 +370,12 @@ rhoFact1:{[x;c;n]
 
 max rhoFact1[0;2] 600851475143 // solution 3
 ```
-<br>
+
+<br />
 
 ## Solution 4
-<br>
+
+<br />
 
 The algorithm can perform badly for prime number inputs.
 
@@ -356,7 +393,8 @@ p:pollardsRho[0;2] each r   // Only apply to the non primes
 p,:r[i] div p i:where r<>p  // Join new factors
 p,:N where ip               // Join the primes back
 ```
-<br>
+
+<br />
 
 ```q
 rhoFact2:{[x;c;n] 
@@ -368,20 +406,24 @@ rhoFact2:{[x;c;n]
 
 max rhoFact2[0;2] 600851475143 // solution 4
 ```
-<br>
+
+<br />
 
 ## Solution 5
-<br>
 
-The main problem with Pollard's Rho algorithm is that x and c must be chosen appropriately depending on the number you are trying to factorise.
+<br />
 
-The following example shows that when `x = 0` and `c = 2`, `100` cannot be completely factorised.
+The main problem with Pollard's Rho algorithm is that *x* and *c* must be chosen appropriately depending on the number you are trying to factorise.
+
+The following example shows that when $x = 0$ and $c = 2$, $100$ cannot be completely factorised.
+
 ```q
 rhoFact2[0;2] 100 // 5 5 4
 ```
-<br>
 
-Using trial an error I was able to find that `x = 0` and `c = 2` were good choices for `600851475143`.
+<br />
+
+Using trial an error I was able to find that $x = 0$ and $c = 2$ were good choices for $600851475143$.
 
 But it may not always be easy to find appropriate values.
 
@@ -400,25 +442,28 @@ rhoFact3[0;2] 100
 
 max rhoFact3[0;2] 600851475143 // solution 5
 ```
-<br>
+
+<br />
 
 ## Solution 6
 
-Another method is to choose `x` and `c` randomly.
+Another method is to choose *x* and *c* randomly.
 ```q
 // Use ? (roll) operator to generate random numbers
 5?10     // 5 random integers between 0 and 10 (10 not inclusive)
 2+5?10-2 // 5 random integers between 2 and 10 (10 not inclusive)
 ```
+
 ```q
 // n random numbers between (l)ower and (u)pper bounds (upper bound not inclusive for integers)
 randNs:{[n;l;u] l+n?u-l}
 // Random number between (l)ower and (u)pper bounds (upper bound not inclusive for integers)
 randN:{[l;u] first randNs[1;l;u]} // Use 'first' keyword so an atom is returned instead of a one item list
 ```
-<br>
 
-Using the `while` form of the `over` (`/`) accumulator, continuously apply `pollardsRho0`, with random `x` and `c` values until a result not equal to `n` is produced.
+<br />
+
+Using the `while` form of the `over` (`/`) accumulator, continuously apply `pollardsRho0`, with random *x* and *c* values until a result not equal to *N* is produced.
 
 ```q
 pollardsRho1:{[n] (n=){[n] pollardsRho0[randN[2;n];;n] (mod[;n] randN[1;n]+prd 2#)}/ n}
@@ -433,6 +478,8 @@ rhoFact4:{
 
 max rhoFact4 600851475143 // solution 6
 ```
+
+<br />
 
 ## Performance test
 ```q
@@ -449,4 +496,3 @@ n:1;   x:593144405383 // Large prime number
     (`rhoFact4;x)
  )
 ```
-

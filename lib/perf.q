@@ -11,7 +11,7 @@ memUse:.[;0 1] ts::
 timeit:{[n;expr] 
     e:.util.ptree expr;
     s:.z.N; 
-    do[n;eval e]; 
+    do[n;value e]; 
     t:.z.N-s;
     $[10=type expr;[f:expr;args:1_e];[f:first expr;args:1_ expr]];
     `f`args`n`total`average!(f;args;n;t;"n"$t%n)
