@@ -1,15 +1,15 @@
 ### [Project Euler - Problem 6](https://projecteuler.net/problem=6)
-### [Episode 6](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-6/td-p/13351)
+### [Episode 6](https://www.youtube.com/watch?v=ubrqa5D05IE&list=PLsQYtymvFUhhft5F6IWzwEZ60dpB6MLMt&index=7)
 
 <br />
 
 # Solution 1
 
 ```q
-show n:1+til 10 // Numbers 1 - 10
-n*n             // Squares
-sum n*n         // Sum of squares
-s*s:sum n       // Square of sum
+n:1+til 10 // Numbers 1 - 10
+n*n        // Squares
+sum n*n    // Sum of squares
+s*s:sum n  // Square of sum
 ```
 
 <br />

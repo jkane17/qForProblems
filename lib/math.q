@@ -44,6 +44,13 @@ pyTriplet:{
 / All Pythagorean Triplets below x 
 pyTriplets:{(i+1)!n i:where 0<count each n:pyTriplet each 1+til x}
 
+/ Factorise an integer - O( n ) time complexity but, will always return a sorted result
+factor0:{1+where 0=x mod n:1+til x}
+/ Factorise an integer - O( sqrt n ) time complexity but, does not return a sorted result
+factor:{distinct n,x div n:1+where 0=x mod n:1+til ceiling sqrt x}
+/ Number of factors a positive integer has
+nfactors:{$[x<2;x;prd 1+count each group pfact x]}
+
 ///// Number Sequences /////
 
 / https://en.wikipedia.org/wiki/Arithmetic_progression
@@ -76,6 +83,13 @@ rrange:{range0[x;y;1;y+neg@]}
 randNs:{[n;l;u] l+n?u-l}
 / Random number between (l)ower and (u)pper bounds (upper bound not inclusive for integers)
 randN:{[l;u] first randNs[1;l;u]}
+
+/ nth triangle number
+triNum:.math.nsum
+/ First n triangle numbers
+triNums:triNum 1+til@
+/ Number of factors for the nth triangle number
+nTriFactors:{prd nfactors each {x,y div 2}. $[x mod 2; x,x+1; (x+1),x]}
 
 
 ///// Primes /////

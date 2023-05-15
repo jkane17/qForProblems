@@ -1,5 +1,6 @@
 ### [Project Euler - Problem 3](https://projecteuler.net/problem=3)
-### [Episode 3](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-3/m-p/13210#M180)
+### [Episode 3 - Part 1](https://www.youtube.com/watch?v=3CNzEcStBZ4&list=PLsQYtymvFUhhft5F6IWzwEZ60dpB6MLMt&index=3)
+### [Episode 3 - Part 2](https://www.youtube.com/watch?v=yMRUQZrlc1M&list=PLsQYtymvFUhhft5F6IWzwEZ60dpB6MLMt&index=4)
 
 <br />
 

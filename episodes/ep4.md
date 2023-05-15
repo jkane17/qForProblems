@@ -1,5 +1,5 @@
 ### [Project Euler - Problem 4](https://projecteuler.net/problem=4)
-### [Episode 4](https://community.kx.com/t5/kdb-and-q/Q-For-Problems-Episode-4/td-p/13254)
+### [Episode 4](https://www.youtube.com/watch?v=Zjnic9sUrQI&list=PLsQYtymvFUhhft5F6IWzwEZ60dpB6MLMt&index=5)
 
 <br />
 
