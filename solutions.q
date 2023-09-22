@@ -112,3 +112,26 @@ N:("J"$" " vs) each read0 `$"input/p11.txt"
 
 {last(x>count .math.factor last@){(1+x 0;x[1]+x 0)}/(1;0)} 500
 {.math.triNum first (x>last@){(n;.math.nTriFactors n:1+x 0)}/(1;0)} 500
+
+
+// Problem 13 - https://projecteuler.net/problem=13
+
+10#.math.addStrs read0 `$"input/p13.txt"
+
+
+// Problem 14 - https://projecteuler.net/problem=14
+{
+    k:ceiling x%2;
+    start:`n`c!(k+til 1+k;(k+1)#0);
+
+    r:({
+        cont:1<>x`n;
+        isodd:1=x[`n] mod 2;
+        x[`c]+:cont+cont and isodd;
+        x[`n]:?[cont;?[isodd;1+3*x`n;x`n] div 2;1];
+        x
+    }/) start;
+    
+    k+r[`c]?max r`c
+ } 999999
+
